@@ -27,6 +27,10 @@ def fetch_poster(movie_id):
     return full_path
 
 
+current_script_path = os.path.abspath(__file__)
+similarity_path = os.path.join(os.path.dirname(current_script_path), "similarity.pkl")
+
+
 def recommend(movie):
     index = movies[movies["title"] == movie].index[0]
     distances = sorted(
