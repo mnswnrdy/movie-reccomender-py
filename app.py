@@ -2,18 +2,6 @@ import pickle
 import streamlit as st
 import requests
 import pandas as pd
-import gdown
-import os
-
-
-def download_file_from_drive(file_id, destination):
-    if not os.path.exists(destination):
-        url = f"https://drive.google.com/uc?id={file_id}"
-        gdown.download(url, destination, quiet=False)
-
-
-file_id = "15Jfg69jMuuoN-JQOHuuKwS7CqgRozWVi"
-download_file_from_drive(file_id, "similarity.pkl")
 
 
 def fetch_poster(movie_id):
@@ -25,10 +13,6 @@ def fetch_poster(movie_id):
     poster_path = data["poster_path"]
     full_path = "https://image.tmdb.org/t/p/w500/" + poster_path
     return full_path
-
-
-current_script_path = os.path.abspath(__file__)
-similarity_path = os.path.join(os.path.dirname(current_script_path), "similarity.pkl")
 
 
 def recommend(movie):
@@ -51,12 +35,7 @@ st.header("Movie Recommender System")
 movie_dict = pickle.load(open("movie_dict.pkl", "rb"))
 movies = pd.DataFrame(movie_dict)
 
-similarity = pickle.load(
-    open(
-        "similarity.pkl",
-        "rb",
-    )
-)
+similarity = pickle.load(open("similarity.pkl", "rb"))
 
 movie_list = movies["title"].values
 selected_movie = st.selectbox("Type or select a movie from the dropdown", movie_list)
